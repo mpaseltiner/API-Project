@@ -58,7 +58,7 @@
       const nameMethod = nameForm.getAttribute('method');
       
       const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+      const descriptionField = nameForm.querySelector('#descriptionField');
       
       const xhr = new XMLHttpRequest();
       xhr.open(nameMethod, nameAction);
@@ -68,7 +68,7 @@
       
       xhr.onload = () => handleResponse(xhr, true);
       
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      const formData = `name=${nameField.value}&description=${descriptionField.value}`;
       xhr.send(formData);
 	  
       e.preventDefault();
@@ -117,8 +117,8 @@
     <form id="nameForm" action="/addUser" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
+      <label for="description">Description: </label>
+      <input id="descriptionField" type="text" name="description"/>
       <input type="submit" value="Add User" />
     </form>
     <form id="userForm" action="/getUsers" method="get">
