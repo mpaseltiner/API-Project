@@ -8,7 +8,7 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/addUser') {
+  if (parsedUrl.pathname === '/addDrink') {
     const res = response;
     const body = [];
 
@@ -26,7 +26,7 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
 
-      responseHandler.addUser(request, res, bodyParams);
+      responseHandler.addDrink(request, res, bodyParams);
     });
   }
 };
@@ -36,8 +36,8 @@ const handleGet = (request, response, parsedUrl) => {
     htmlHandler.getIndex(request, response);
   } else if (parsedUrl.pathname === '/style.css') {
     htmlHandler.getCSS(request, response);
-  } else if (parsedUrl.pathname === '/getUsers') {
-    responseHandler.getUsers(request, response);
+  } else if (parsedUrl.pathname === '/getDrinks') {
+    responseHandler.getDrinks(request, response);
   } else if (parsedUrl.pathname === '/notReal') {
     responseHandler.notReal(request, response);
   } else {
@@ -46,8 +46,8 @@ const handleGet = (request, response, parsedUrl) => {
 };
 
 const handleMeta = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/getUsers') {
-    responseHandler.getUsersMeta(request, response);
+  if (parsedUrl.pathname === '/getDrinks') {
+    responseHandler.getDrinksMeta(request, response);
   } else {
     responseHandler.notRealMeta(request, response);
   }

@@ -1,4 +1,4 @@
-const users = {};
+const drinks = {};
 
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
@@ -11,41 +11,44 @@ const respondJSONMeta = (request, response, status) => {
   response.end();
 };
 
-const getUsers = (request, response) => {
+const getDrinks = (request, response) => {
   const responseJSON = {
-    users,
+    drinks,
   };
 
   respondJSON(request, response, 200, responseJSON);
 };
 
-const getUsersMeta = (request, response) => {
+const getDrinksMeta = (request, response) => {
   respondJSONMeta(request, response, 200);
 };
 
-const addUser = (request, response, body) => {
+const addDrink = (request, response, body) => {
   const responseJSON = {
-    message: 'Name and age are both required.',
+    message: 'all fields are required',
   };
 
-  if (!body.name || !body.age) {
+  if (!body.name || !body.ingredients) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 201;
 
-  if (users[body.name]) {
+  if (drinks[body.name]) {
     responseCode = 204;
   } else {
-    users[body.name] = {};
+    drinks[body.name] = {};
   }
 
-  users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  drinks[body.name].name = body.name;
+  drinks[body.name].ingredients = body.ingredients;
+  drinks[body.name].glass = body.glass;
+  drinks[body.name].instructions = body.instructions;
+
 
   if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully';
+    responseJSON.message = 'Drink Created Successfully';
     return respondJSON(request, response, responseCode, responseJSON);
   }
 
@@ -66,9 +69,9 @@ const notRealMeta = (request, response) => {
 };
 
 module.exports = {
-  getUsers,
-  getUsersMeta,
+  getDrinks,
+  getDrinksMeta,
   notReal,
   notRealMeta,
-  addUser,
+  addDrink,
 };

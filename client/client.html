@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Drink Recipes</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
@@ -9,24 +9,64 @@
      const parseJSON = (xhr, content) => {
       
       const obj = JSON.parse(xhr.response);
-      console.dir(obj);
+      const drinkInformation = document.querySelector('#filledContent');
+      
+      if(obj.drinks) {
+        console.dir(obj);
+
+        drinkInformation.innerHTML = "";
+        content.innerHTML = "";
+
+        let drinkList = [];
+
+        for(let x = 0; x < Object.getOwnPropertyNames(obj.drinks).length; x++)
+        {
+          drinkList.push(Object.getOwnPropertyNames(obj.drinks)[x]);
+
+          const span = document.createElement('span');
+
+          let key = drinkList[x];
+
+          const name = document.createElement('h3');
+          const ingredients = document.createElement('p');
+          const glass = document.createElement('p');
+          const instructions = document.createElement('p');
+
+          name.innerHTML = obj.drinks[key].name;
+          span.appendChild(name);
+
+          ingredients.innerHTML = obj.drinks[key].ingredients;
+          span.appendChild(ingredients);
+
+          glass.innerHTML = obj.drinks[key].glass;
+          span.appendChild(glass);
+
+          instructions.innerHTML = obj.drinks[key].instructions;
+          span.appendChild(instructions);
+
+          drinkInformation.appendChild(span);
+
+        }
+
+
+      }
        
-      if(obj.message) {
-        const p = document.createElement('p');
-        p.textContent = `Message: ${obj.message}`;
-        content.appendChild(p);
-      }
+      // if(obj.message) {
+      //   const p = document.createElement('p');
+      //   p.textContent = `Message: ${obj.message}`;
+      //   content.appendChild(p);
+      // }
     
-      if(obj.users) {
-        const userList = document.createElement('p');
-        const users = JSON.stringify(obj.users);
-        userList.textContent = users;
-        content.appendChild(userList);
-      }
+      // if(obj.users) {
+      //   const userList = document.createElement('p');
+      //   const users = JSON.stringify(obj.users);
+      //   userList.textContent = users;
+      //   content.appendChild(userList);
+      // }
     };
 
     const handleResponse = (xhr, parse) => {
-      const content = document.querySelector('#content');
+      const content = document.querySelector('#emptyContent');
       
       switch(xhr.status) {
         case 200: //success
@@ -53,12 +93,14 @@
       
     };
 
-    const sendPost = (e, nameForm) => {
-      const nameAction = nameForm.getAttribute('action');
-      const nameMethod = nameForm.getAttribute('method');
+    const sendPost = (e, drinkForm) => {
+      const nameAction = drinkForm.getAttribute('action');
+      const nameMethod = drinkForm.getAttribute('method');
       
-      const nameField = nameForm.querySelector('#nameField');
-      const descriptionField = nameForm.querySelector('#descriptionField');
+      const nameField = drinkForm.querySelector('#nameField');
+      const ingredientsField = drinkForm.querySelector('#ingredientsField');
+      const glassSelector = drinkForm.querySelector('#glassSelect');
+      const instructionsField = drinkForm.querySelector('#instructionsField');
       
       const xhr = new XMLHttpRequest();
       xhr.open(nameMethod, nameAction);
@@ -68,7 +110,7 @@
       
       xhr.onload = () => handleResponse(xhr, true);
       
-      const formData = `name=${nameField.value}&description=${descriptionField.value}`;
+      const formData = `name=${nameField.value}&ingredients=${ingredientsField.value}&glass=${glassSelector.value}&instructions=${instructionsField.value}`;
       xhr.send(formData);
 	  
       e.preventDefault();
@@ -76,8 +118,8 @@
     };
 
     const requestUpdate = (e, userForm) => {
-      const url = userForm.querySelector('#urlField').value;
-      const method = userForm.querySelector('#methodSelect').value;
+      const url = '/getDrinks';
+      const method = 'get';
       
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
@@ -96,16 +138,16 @@
     };
 
     const init = () => {
-      const nameForm = document.querySelector('#nameForm');
+      const drinkForm = document.querySelector('#drinkForm');
       
-      const addUser = (e) => sendPost(e, nameForm);
+      const addDrink = (e) => sendPost(e, drinkForm);
       
       const userForm = document.querySelector('#userForm');
       
-      const getUsers = (e) => requestUpdate(e, userForm);
+      const getDrinks = (e) => requestUpdate(e, userForm);
 	  
-      nameForm.addEventListener('submit', addUser);
-      userForm.addEventListener('submit', getUsers);
+      drinkForm.addEventListener('submit', addDrink);
+      userForm.addEventListener('submit', getDrinks);
     };
     window.onload = init;
 
@@ -113,27 +155,39 @@
 </head>
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
+    <h3>Get Your Drink Recipes Here</h3>
+    <h4>add any you think are missing</h4>
+    <form id="drinkForm" action="/addDrink" method="post">
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="description">Description: </label>
-      <input id="descriptionField" type="text" name="description"/>
-      <input type="submit" value="Add User" />
+      <label for="ingredients">Ingredients: </label>
+      <input id="ingredientsField" type="text" name="ingredients"/>
+      <label for="glass">Glass:</label>
+      <select id="glassSelect">
+        <option value="Rocks">Rocks Glass</option>
+        <option value="Shot">Shot Glass</option>
+        <option value="Martini">Martini Glass</option>
+        <option value="Collins">Collins Glass</option>
+        <option value="Margarita">Margarita Glass</option>
+        <option value="Whiskey">Whiskey Glass</option>
+        <option value="Brandy">Brandy Glass</option>
+        <option value="Coupe">Coupe Glass</option>
+        <option value="Gin and Tonic">Gin and Tonic Glass</option>
+        <option value="Highball">Highball Glass</option>
+        <option value="Hurricane">Hurricane Glass</option>
+        <option value="Zombie">Zombie Glass</option>
+      </select>
+      <label for="instructions">How To Make: </label>
+      <input id="instructionsField" type="text" name="instructions" />
+      <input type="submit" value="Add Drink" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get User" />
+    <form id="userForm" action="/getDrinks" method="get">
+      <input type="submit" value="Get Drinks" />
     </form>
   </section>
-  <section id="content">
+  <section id="emptyContent">
+  </section>
+  <section id="filledContent">
   </section>
 </body>
 </html>
