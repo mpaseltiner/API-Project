@@ -25,20 +25,46 @@
           drinkList.push(Object.getOwnPropertyNames(obj.drinks)[x]);
           let key = drinkList[x];
           const name = obj.drinks[key].name;
-          const glass = obj.drink[key].glass;
+          const glass = obj.drinks[key].glass;
           const image = obj.drinks[key].image;
-          const instructions = obj.drink[key].instructions;
-          const ingredients = obj.drink[key].ingredients;
+          const instructions = obj.drinks[key].instructions;
+          const ingredients = obj.drinks[key].ingredients;
 
           const drinkElementContainer = document.createElement('div');
-          drinkElementContainer.innerHTML = `<div class='span4 proj-div' data-toggle='modal' data-target='#drinkModal${x}'><h3>${name}</h3><img src='${image}' height='100' width='100'></div>`;
+          drinkElementContainer.innerHTML = 
+          `<div class='span4 proj-div' data-toggle='modal' data-target='#drinkModal${x}'>
+            <h3>${name}</h3>
+            <img src='${image}' height='100' width='100'>
+          </div>`;
 
           //create and fill drink modal
           const drinkModalContainer = document.createElement('div');
-          drinkModalContainer.innerHTML = `<div class='modal fade' id='drinkModal${x}' tabindex='-1' role='dialog' aria-labelledby='drinkModalTitle' aria-hidden='true'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'><div class='modal-content'><div class='modal-header'><h5 class='modal-title' id='drinkModalTitle'>Modal title</h5><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div><div class='modal-body'><h1>${name}</h1><img src='${image}' height='300' width='300'><h3>Ingredients</h3><p>${ingredients}</p><p>Glass Type: ${glass}</p><h3>Instructions</h3><p>${instructions}</p></div><div class='modal-footer'><button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button></div></div></div></div>`;
-
+          drinkModalContainer.innerHTML = 
+          `<div class='modal fade' id='drinkModal${x}' tabindex='-1' role='dialog' aria-labelledby='drinkModalTitle' aria-hidden='true'>
+            <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
+              <div class='modal-content'>
+                <div class='modal-header'>
+                  <h5 class='modal-title' id='drinkModalTitle'>${name}</h5>
+                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                </div>
+                <div class='modal-body'>
+                  <h1>${name}</h1>
+                  <img src='${image}' height='300' width='300'>
+                  <h3>Ingredients</h3>
+                  <p>${ingredients}</p>
+                  <p>Glass Type: ${glass}</p>
+                  <h3>Instructions</h3>
+                  <p>${instructions}</p>
+                </div>
+                <div class='modal-footer'>
+                  <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
 
           drinkInformation.appendChild(drinkElementContainer);
+          drinkInformation.appendChild(drinkModalContainer);
         }
 
       }
@@ -185,6 +211,29 @@
   <div id="emptyContent">
   </div>
   <div id="filledContent">
+       <!-- Button trigger modal -->
+    
+       <div class="span4 proj-div" data-toggle="modal" data-target="#drinkModal">Clickable content, graphics, whatever</div>
+    
+       <!-- Modal -->
+       <div class="modal fade" id="drinkModal" tabindex="-1" role="dialog" aria-labelledby="drinkModalTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="drinkModalTitle">Modal title</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               ...
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             </div>
+           </div>
+         </div>
+       </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
