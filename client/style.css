@@ -19,3 +19,11 @@ html, body {
   font-size: 2em;
   text-align: center;
 }
+
+.drinkFormContainer{
+  text-align: center;
+}
+
+#drinkForm{
+  display: inline-block;
+}

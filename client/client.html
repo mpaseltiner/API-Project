@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <title>The Bar</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
@@ -22,47 +23,22 @@
         for(let x = 0; x < Object.getOwnPropertyNames(obj.drinks).length; x++)
         {
           drinkList.push(Object.getOwnPropertyNames(obj.drinks)[x]);
-
-          const span = document.createElement('span');
-
           let key = drinkList[x];
 
-          const name = document.createElement('h3');
-          const ingredients = document.createElement('p');
-          const glass = document.createElement('p');
-          const instructions = document.createElement('p');
+          let index = x;
 
-          name.innerHTML = obj.drinks[key].name;
-          span.appendChild(name);
+          const drinkElementContainer = document.createElement('div');
+          drinkElementContainer.innerHTML = "<div class='span4 proj-div' data-toggle='modal' data-target='#drinkModal'"+ index +"><h3>" + obj.drinks[key].name"</h3><img src="obj.drinks[key].image" height='100' width='100'></div>";
 
-          ingredients.innerHTML = obj.drinks[key].ingredients;
-          span.appendChild(ingredients);
+          //create and fill drink modal
+          const drinkModalContainer = document.createElement('div');
+          drinkModalContainer.innerHTML = "<div class='modal fade' id='drinkModal'"+x+" tabindex='-1' role='dialog' aria-labelledby='drinkModalTitle' aria-hidden='true'><div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'><div class='modal-content'><div class='modal-header'><h5 class='modal-title' id='drinkModalTitle'>Modal title</h5><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div><div class='modal-body'><h1>" + obj.drinks[key].name"</h1><img src="obj.drinks[key].image" height='300' width='300'><h3>Ingredients</h3><p>"obj.drinks[key].ingredients"</p><p>Glass Type:" + obj.drink[key].glass"</p><h3>Instructions</h3><p>"obj.drinks[key].instructions"</p></div><div class='modal-footer'><button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button></div></div></div></div>";
 
-          glass.innerHTML = obj.drinks[key].glass;
-          span.appendChild(glass);
 
-          instructions.innerHTML = obj.drinks[key].instructions;
-          span.appendChild(instructions);
-
-          drinkInformation.appendChild(span);
-
+          drinkInformation.appendChild(drinkElementContainer);
         }
 
-
       }
-       
-      // if(obj.message) {
-      //   const p = document.createElement('p');
-      //   p.textContent = `Message: ${obj.message}`;
-      //   content.appendChild(p);
-      // }
-    
-      // if(obj.users) {
-      //   const userList = document.createElement('p');
-      //   const users = JSON.stringify(obj.users);
-      //   userList.textContent = users;
-      //   content.appendChild(userList);
-      // }
     };
 
     const handleResponse = (xhr, parse) => {
@@ -98,6 +74,7 @@
       const nameMethod = drinkForm.getAttribute('method');
       
       const nameField = drinkForm.querySelector('#nameField');
+      const imageField = drinkForm.querySelector('#imageField');
       const ingredientsField = drinkForm.querySelector('#ingredientsField');
       const glassSelector = drinkForm.querySelector('#glassSelect');
       const instructionsField = drinkForm.querySelector('#instructionsField');
@@ -110,7 +87,7 @@
       
       xhr.onload = () => handleResponse(xhr, true);
       
-      const formData = `name=${nameField.value}&ingredients=${ingredientsField.value}&glass=${glassSelector.value}&instructions=${instructionsField.value}`;
+      const formData = `name=${nameField.value}&image=${imageField.value}&ingredients=${ingredientsField.value}&glass=${glassSelector.value}&instructions=${instructionsField.value}`;
       xhr.send(formData);
 	  
       e.preventDefault();
@@ -157,37 +134,59 @@
   <section id="top">
     <h3>Get Your Drink Recipes Here</h3>
     <h4>add any you think are missing</h4>
-    <form id="drinkForm" action="/addDrink" method="post">
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <label for="ingredients">Ingredients: </label>
-      <input id="ingredientsField" type="text" name="ingredients"/>
-      <label for="glass">Glass:</label>
-      <select id="glassSelect">
-        <option value="Rocks">Rocks Glass</option>
-        <option value="Shot">Shot Glass</option>
-        <option value="Martini">Martini Glass</option>
-        <option value="Collins">Collins Glass</option>
-        <option value="Margarita">Margarita Glass</option>
-        <option value="Whiskey">Whiskey Glass</option>
-        <option value="Brandy">Brandy Glass</option>
-        <option value="Coupe">Coupe Glass</option>
-        <option value="Gin and Tonic">Gin and Tonic Glass</option>
-        <option value="Highball">Highball Glass</option>
-        <option value="Hurricane">Hurricane Glass</option>
-        <option value="Zombie">Zombie Glass</option>
-      </select>
-      <label for="instructions">How To Make: </label>
-      <input id="instructionsField" type="text" name="instructions" />
-      <input type="submit" value="Add Drink" />
-    </form>
+    <div class="drinkFormContainer">
+        <form id="drinkForm" action="/addDrink" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="name">Drink Name:</label>
+              <input class="form-control" id="nameField" type="text" name="name" placeholder="name"/>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="image">Drink Image:</label>
+              <input class="form-control" id="imageField" type="text" name="image" placeholder="link"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="glassSelect">Glass:</label>
+            <select class="form-control" id="glassSelect">
+              <option value="Rocks">Rocks Glass</option>
+              <option value="Shot">Shot Glass</option>
+              <option value="Martini">Martini Glass</option>
+              <option value="Collins">Collins Glass</option>
+              <option value="Margarita">Margarita Glass</option>
+              <option value="Whiskey">Whiskey Glass</option>
+              <option value="Brandy">Brandy Glass</option>
+              <option value="Coupe">Coupe Glass</option>
+              <option value="Gin and Tonic">Gin and Tonic Glass</option>
+              <option value="Highball">Highball Glass</option>
+              <option value="Hurricane">Hurricane Glass</option>
+              <option value="Zombie">Zombie Glass</option>
+            </select>
+          </div>
+          <div class="form-row">
+              <label for="ingredients">Ingredients: </label>
+              <textarea class="form-control" id="ingredientsField" type="text" name="ingredients" rows="5"></textarea>
+          </div>
+          <div class="form-row">
+              <label for="instructions">How To Make: </label>
+              <textarea class="form-control" id="instructionsField" type="text" name="instructions" rows="5"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Drink</button>
+        </form>
+    </div>
+    
     <form id="userForm" action="/getDrinks" method="get">
-      <input type="submit" value="Get Drinks" />
+      <button type="submit" class="btn btn-primary" value="Get Drinks" >Get Drinks</button>
     </form>
   </section>
-  <section id="emptyContent">
-  </section>
-  <section id="filledContent">
-  </section>
+  <div id="emptyContent">
+  </div>
+  <div id="filledContent">
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 </html>

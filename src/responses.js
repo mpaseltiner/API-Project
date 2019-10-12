@@ -42,6 +42,7 @@ const addDrink = (request, response, body) => {
   }
 
   drinks[body.name].name = body.name;
+  drinks[body.name].image = body.image;
   drinks[body.name].ingredients = body.ingredients;
   drinks[body.name].glass = body.glass;
   drinks[body.name].instructions = body.instructions;
