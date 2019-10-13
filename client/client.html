@@ -31,10 +31,11 @@
           const ingredients = obj.drinks[key].ingredients;
 
           const drinkElementContainer = document.createElement('div');
+          drinkElementContainer.classList.add("drinkItem");
           drinkElementContainer.innerHTML = 
           `<div class='span4 proj-div' data-toggle='modal' data-target='#drinkModal${x}'>
-            <h3>${name}</h3>
-            <img src='${image}' height='100' width='100'>
+            <h3 class="drinkTitle">${name}</h3>
+            <img class="drinkImage" src='${image}' height='auto' width='80%'>
           </div>`;
 
           //create and fill drink modal
@@ -139,8 +140,20 @@
       
       xhr.send();
       
-      e.preventDefault();
+      if(e != null)
+      {
+        e.preventDefault();
+      }
+      
       return false;
+    };
+
+    const submitForm = () => {
+      let form = document.getElementById("drinkForm");
+      let modal = document.getElementById("addDrinkModal");
+      form.submit();
+      modal.style.display = "none";
+
     };
 
     const init = () => {
@@ -154,6 +167,8 @@
 	  
       drinkForm.addEventListener('submit', addDrink);
       userForm.addEventListener('submit', getDrinks);
+
+      requestUpdate(null, userForm);
     };
     window.onload = init;
 
@@ -161,79 +176,74 @@
 </head>
 <body>
   <section id="top">
-    <h3>Get Your Drink Recipes Here</h3>
-    <h4>add any you think are missing</h4>
+    <div id="header"><h3>Cocktail Recipe Bar</h3></div>
     <div class="drinkFormContainer">
-        <form id="drinkForm" action="/addDrink" method="post">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="name">Drink Name:</label>
-              <input class="form-control" id="nameField" type="text" name="name" placeholder="name"/>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="image">Drink Image:</label>
-              <input class="form-control" id="imageField" type="text" name="image" placeholder="link"/>
-            </div>
-          </div>
-          <div class="form-row">
-            <label for="glassSelect">Glass:</label>
-            <select class="form-control" id="glassSelect">
-              <option value="Rocks">Rocks Glass</option>
-              <option value="Shot">Shot Glass</option>
-              <option value="Martini">Martini Glass</option>
-              <option value="Collins">Collins Glass</option>
-              <option value="Margarita">Margarita Glass</option>
-              <option value="Whiskey">Whiskey Glass</option>
-              <option value="Brandy">Brandy Glass</option>
-              <option value="Coupe">Coupe Glass</option>
-              <option value="Gin and Tonic">Gin and Tonic Glass</option>
-              <option value="Highball">Highball Glass</option>
-              <option value="Hurricane">Hurricane Glass</option>
-              <option value="Zombie">Zombie Glass</option>
-            </select>
-          </div>
-          <div class="form-row">
-              <label for="ingredients">Ingredients: </label>
-              <textarea class="form-control" id="ingredientsField" type="text" name="ingredients" rows="5"></textarea>
-          </div>
-          <div class="form-row">
-              <label for="instructions">How To Make: </label>
-              <textarea class="form-control" id="instructionsField" type="text" name="instructions" rows="5"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Add Drink</button>
-        </form>
     </div>
-    
-    <form id="userForm" action="/getDrinks" method="get">
-      <button type="submit" class="btn btn-primary" value="Get Drinks" >Get Drinks</button>
-    </form>
+    <div id="userInteraction">
+      <form class="getDrinksButton" id="userForm" action="/getDrinks" method="get">
+        <button type="submit" class="btn btn-primary" value="Get Drinks" >Get Drinks</button>
+      </form>
+      <button type="button" class="btn btn-primary addDrinkButton" data-toggle="modal" data-target="#addDrinkModal">Add Drink</button>
+    </div>
+    <div class="modal fade" id="addDrinkModal" tabindex="-1" role="dialog" aria-labelledby="addDrinkModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addDrinkModalTitle">Add Drink</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="drinkForm" action="/addDrink" method="post" name="drinkForm">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Drink Name:</label>
+                  <input class="form-control" id="nameField" type="text" name="name" placeholder="name"/>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="image">Drink Image:</label>
+                  <input class="form-control" id="imageField" type="text" name="image" placeholder="link"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="glassSelect">Glass:</label>
+                <select class="form-control" id="glassSelect">
+                  <option value="Rocks">Rocks Glass</option>
+                  <option value="Shot">Shot Glass</option>
+                  <option value="Martini">Martini Glass</option>
+                  <option value="Collins">Collins Glass</option>
+                  <option value="Margarita">Margarita Glass</option>
+                  <option value="Whiskey">Whiskey Glass</option>
+                  <option value="Brandy">Brandy Glass</option>
+                  <option value="Coupe">Coupe Glass</option>
+                  <option value="Gin and Tonic">Gin and Tonic Glass</option>
+                  <option value="Highball">Highball Glass</option>
+                  <option value="Hurricane">Hurricane Glass</option>
+                  <option value="Zombie">Zombie Glass</option>
+                </select>
+              </div>
+              <div class="form-row">
+                  <label for="ingredients">Ingredients: </label>
+                  <textarea class="form-control" id="ingredientsField" type="text" name="ingredients" rows="5"></textarea>
+              </div>
+              <div class="form-row">
+                  <label for="instructions">How To Make: </label>
+                  <textarea class="form-control" id="instructionsField" type="text" name="instructions" rows="5"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary addDrinkButtonModal">Add Drink</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
   <div id="emptyContent">
   </div>
   <div id="filledContent">
-       <!-- Button trigger modal -->
-    
-       <div class="span4 proj-div" data-toggle="modal" data-target="#drinkModal">Clickable content, graphics, whatever</div>
-    
-       <!-- Modal -->
-       <div class="modal fade" id="drinkModal" tabindex="-1" role="dialog" aria-labelledby="drinkModalTitle" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-           <div class="modal-content">
-             <div class="modal-header">
-               <h5 class="modal-title" id="drinkModalTitle">Modal title</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                 <span aria-hidden="true">&times;</span>
-               </button>
-             </div>
-             <div class="modal-body">
-               ...
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             </div>
-           </div>
-         </div>
-       </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

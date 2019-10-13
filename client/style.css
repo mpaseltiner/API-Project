@@ -3,6 +3,7 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  background-color: white;
 }
 
 #top {
@@ -26,4 +27,129 @@ html, body {
 
 #drinkForm{
   display: inline-block;
+}
+
+#filledContent{
+  width: 70vw;
+  margin-left: 15vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.drinkItem{
+  width: 31%;
+  padding-top: 7px;
+  padding-bottom: 25px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border: 1px solid rgba(95, 94, 94, 0.699);
+  cursor: pointer;
+  filter: brightness(1);
+  transition: .3s;
+}
+
+.drinkItem:hover{
+  transition: .3s;
+  filter: brightness(1.1);
+  width: 33%;
+}
+
+.drinkTitle{
+  width: 100%;
+  font-size: 24px;
+  color: rgb(43, 43, 43);
+}
+
+.drinkImage{
+  padding: 5px;
+  max-width: 280px;
+}
+
+.span4{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#userInteraction{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 25px;
+  margin-top: 25px;
+
+}
+
+.getDrinksButton{
+  width: 30%;
+}
+
+.getDrinksButton button{
+  width: 100%;
+  background-color: #c62828;
+  cursor: pointer;
+  color: #FFFDF9;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 10px 0px;
+}
+
+.getDrinksButton button:hover{
+  background-color: #8e0000;
+}
+
+.addDrinkButton{
+  width: 30%;
+  background-color: #c62828;
+  cursor: pointer;
+  color: #FFFDF9;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 10px 0px;
+
+}
+
+.addDrinkButton:hover{
+  background-color: #8e0000;
+}
+
+#header{
+  height: 70px;
+  width: 100%;
+  background-color: #03a9f4;
+  box-shadow: 0px 3px 5px 0px rgba(0,122,193,1);
+}
+
+#header h3{
+  font-size: 30px;
+  margin-left: 20px;
+  padding-top: 15px;
+  text-align: left;
+  color: #FFFDF9;
+}
+
+.modal-header{
+  background-color: #03a9f4;
+  color: #FFFDF9;
+}
+
+.form-group{
+  text-align: left;
+}
+
+.close span{
+  color: #FFFdF9;
+}
+
+.addDrinkButtonModal{
+  background-color: #c62828;
+  cursor: pointer;
+  color: #FFFDF9;
+  margin-top: 15px;
+}
+.addDrinkButtonModal:hover{
+  background-color: #8e0000;
+
 }

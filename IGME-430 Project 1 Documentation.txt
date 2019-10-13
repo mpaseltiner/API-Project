@@ -1,0 +1,32 @@
+﻿Matthew Paseltiner
+Cocktail Recipe API
+
+
+What your site does and its purpose.
+
+
+This website acts as a storage area for different cocktail recipes. Users can view the different cocktails to see their ingredients and instructions on how to make it and they can add their own cocktails.
+
+
+What part of your app does the API handle?
+
+
+The API handles getting the JSON to display the cocktails and pushing new content into the JSON.
+
+
+What went right and what went wrong?
+
+
+Getting modal boxes to work the way I wanted to took a whole lot longer than it should have. 
+
+
+If you were to continue, what would you do to improve your app?
+
+
+I would definitely work on improving the way the preview of each cocktail looks. I’m not 100% happy with the way they look and I think they would be the major focus. I would also look to creating a more permanent storage for the JSON so it didn’t get reset each time the app got used.
+
+
+How did you go above and beyond?
+
+
+I used bootstrap to help make the website look a lot more professional and add functionality that would have taken a lot more work. The modal boxes that exist for displaying more information on each drink took me several hours to get set up properly. This was because I had to create them dynamically using JS for each drink that was to be displayed. I ran into some issues making them that ended up with me running in circles for a few hours.
